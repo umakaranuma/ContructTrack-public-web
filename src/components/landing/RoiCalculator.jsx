@@ -113,10 +113,10 @@ export default function RoiCalculator() {
             {/* Cement spend input */}
             <div>
               <label className="block text-offwhite font-semibold text-sm mb-2">
-                Monthly Cement Spend
+                Monthly Material Spend
               </label>
               <p className="text-muted text-xs mb-3">
-                Enter the total you spend on cement per month across all sites.
+                Enter total spend on cement, steel, sand, aggregate, pipes & other materials per month across all sites.
               </p>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gold font-mono font-bold text-sm">
@@ -228,7 +228,7 @@ export default function RoiCalculator() {
               <p className="text-muted text-xs mt-2">
                 {isPositive
                   ? `${roi}× return on your ConstructTrack investment each month`
-                  : 'Increase cement spend or sites to see positive ROI'}
+                  : 'Increase material spend or number of sites to see positive ROI'}
               </p>
             </div>
 

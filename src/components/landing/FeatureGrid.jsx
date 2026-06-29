@@ -12,7 +12,7 @@ const FEATURES = [
     ),
     title: 'Offline-First Mobile App',
     description:
-      'Log materials and attendance even without internet. Data syncs automatically when connectivity returns — no data loss, ever.',
+      'Log cement, sand, steel, aggregate, blocks, and worker attendance even without internet. Data syncs automatically when connectivity returns — no data loss, ever.',
     tag: 'Mobile',
   },
   {
@@ -49,7 +49,7 @@ const FEATURES = [
     ),
     title: 'Material Price Anomaly Alerts',
     description:
-      'Machine-learned price baselines per material. Immediate WhatsApp alert when a delivery bill is more than 10% above market rate.',
+      'Track cement, sand, steel, aggregate, blocks and pipes — all with learned price baselines. Instant alert when any delivery bill exceeds market rate by more than 10%.',
     tag: 'Alerts',
   },
   {

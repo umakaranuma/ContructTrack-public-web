@@ -83,6 +83,26 @@ function AttendancePill({ name, status, delay }) {
   )
 }
 
+// Material row — one delivery line in the bill log panel
+function MaterialRow({ icon, name, qty, unit, amount, delay, flagged }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -8 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay }}
+      className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs ${
+        flagged ? 'bg-danger/10 border border-danger/20' : 'bg-navy-primary/50'
+      }`}
+    >
+      <span className="text-base leading-none">{icon}</span>
+      <span className={`flex-1 font-medium ${flagged ? 'text-danger' : 'text-offwhite'}`}>{name}</span>
+      <span className="text-muted font-mono">{qty} {unit}</span>
+      <span className={`font-mono ${flagged ? 'text-danger' : 'text-gold'}`}>Rs {amount}</span>
+      {flagged && <span className="text-danger text-[9px] font-bold">↑ 24%</span>}
+    </motion.div>
+  )
+}
+
 // The animated fake dashboard preview card
 function DashboardMock() {
   return (
@@ -110,68 +130,84 @@ function DashboardMock() {
         {/* Dashboard content */}
         <div className="p-5">
           {/* Header row */}
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-syne font-bold text-offwhite text-sm">Colombo Site 04</h3>
-              <p className="text-muted text-xs mt-0.5">Rajagiriya Residential Tower</p>
+              <p className="text-muted text-xs mt-0.5">Rajagiriya Residential Tower · Foundation Stage</p>
             </div>
             <span className="text-xs bg-success/20 text-success px-2 py-1 rounded-full font-mono">
               ● LIVE
             </span>
           </div>
 
-          {/* Stats row */}
-          <div className="grid grid-cols-3 gap-3 mb-5">
+          {/* Stats row — key site numbers */}
+          <div className="grid grid-cols-3 gap-2 mb-4">
             <div className="bg-navy-primary/60 rounded-xl p-3 text-center">
-              <div className="text-lg font-bold">
-                <AnimatedCounter target={1842} suffix=" bags" duration={2500} />
-              </div>
-              <div className="text-[10px] text-muted mt-1">Cement Stock</div>
-            </div>
-            <div className="bg-navy-primary/60 rounded-xl p-3 text-center">
-              <div className="text-lg font-bold">
+              <div className="text-base font-bold">
                 <AnimatedCounter target={34} suffix="" duration={1500} />
               </div>
-              <div className="text-[10px] text-muted mt-1">Workers Today</div>
+              <div className="text-[10px] text-muted mt-0.5">Workers Today</div>
             </div>
             <div className="bg-navy-primary/60 rounded-xl p-3 text-center">
-              <div className="text-lg font-bold">
+              <div className="text-base font-bold">
                 <AnimatedCounter target={68} suffix="%" duration={1800} />
               </div>
-              <div className="text-[10px] text-muted mt-1">Progress</div>
+              <div className="text-[10px] text-muted mt-0.5">Progress</div>
+            </div>
+            <div className="bg-navy-primary/60 rounded-xl p-3 text-center">
+              <div className="text-base font-bold text-gold">
+                <AnimatedCounter target={7} prefix="" suffix=" bills" duration={1200} />
+              </div>
+              <div className="text-[10px] text-muted mt-0.5">Today</div>
             </div>
           </div>
 
-          {/* Two-column: chart + attendance */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* Material usage chart */}
+          {/* Two-column: material log + attendance */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Material delivery log — all types */}
             <div className="bg-navy-primary/60 rounded-xl p-3">
-              <p className="text-[10px] text-muted mb-2 font-medium">Material Usage (Week)</p>
-              <MiniBarChart />
+              <p className="text-[10px] text-muted mb-2 font-semibold uppercase tracking-wider">
+                Today's Deliveries
+              </p>
+              <div className="space-y-1">
+                <MaterialRow icon="🏗️" name="Cement"    qty="240"  unit="bags"  amount="96,000" delay={0.55} />
+                <MaterialRow icon="🪨" name="Aggregate" qty="8.5"  unit="m³"   amount="42,500" delay={0.65} />
+                <MaterialRow icon="🔩" name="Steel"     qty="1,200" unit="kg"  amount="186,000" delay={0.75} flagged />
+                <MaterialRow icon="🏖️" name="Sand"      qty="12"   unit="m³"   amount="30,000" delay={0.85} />
+                <MaterialRow icon="🧱" name="Blocks"    qty="500"  unit="pcs"  amount="22,500" delay={0.95} />
+              </div>
             </div>
 
-            {/* Attendance list */}
-            <div className="bg-navy-primary/60 rounded-xl p-3">
-              <p className="text-[10px] text-muted mb-2 font-medium">Today's Attendance</p>
-              <div className="space-y-1.5">
-                <AttendancePill name="K. Perera" status="Present" delay={0.6} />
-                <AttendancePill name="S. Fernando" status="Present" delay={0.75} />
-                <AttendancePill name="R. Silva" status="Absent" delay={0.9} />
-                <AttendancePill name="M. Jayasinghe" status="Present" delay={1.05} />
+            {/* Right column: attendance + chart */}
+            <div className="space-y-3">
+              {/* Attendance */}
+              <div className="bg-navy-primary/60 rounded-xl p-3">
+                <p className="text-[10px] text-muted mb-2 font-semibold uppercase tracking-wider">Attendance</p>
+                <div className="space-y-1">
+                  <AttendancePill name="K. Perera"    status="Present" delay={0.6} />
+                  <AttendancePill name="S. Fernando"  status="Present" delay={0.75} />
+                  <AttendancePill name="R. Silva"     status="Absent"  delay={0.9} />
+                  <AttendancePill name="M. Jayasinghe" status="Present" delay={1.05} />
+                </div>
+              </div>
+              {/* Mini weekly chart */}
+              <div className="bg-navy-primary/60 rounded-xl p-3">
+                <p className="text-[10px] text-muted mb-2 font-semibold uppercase tracking-wider">Spend / Day</p>
+                <MiniBarChart />
               </div>
             </div>
           </div>
 
-          {/* Alert bar */}
+          {/* Alert — flagged steel price */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
-            className="mt-4 bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 flex items-center gap-2"
+            className="mt-3 bg-danger/10 border border-danger/30 rounded-lg px-3 py-2 flex items-center gap-2"
           >
-            <span className="text-gold text-sm">⚠</span>
-            <span className="text-xs text-gold font-medium">
-              Cement usage 22% above estimate — review delivery bill
+            <span className="text-danger text-sm">⚠</span>
+            <span className="text-xs text-danger font-medium">
+              Steel delivery price 24% above market rate — GPS photo captured, review bill
             </span>
           </motion.div>
         </div>
